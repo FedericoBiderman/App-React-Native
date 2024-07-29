@@ -1,44 +1,33 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 
-export default function Example() {
+const App = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
-      <View style={styles.container}>
+    <NavigationContainer>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
           <View style={styles.header}>
             <Image
-              alt="App Logo"
+              accessibilityLabel="App Logo"
               resizeMode="contain"
               style={styles.headerImg}
-              source={{
-                uri: 'blob:https://web.whatsapp.com/8b54e2d8-4a76-48a6-974c-41a9be3b6a6c',
-              }} />
-
+              source={{ uri: 'https://example.com/logo.png' }} // Usa una URL válida aquí
+            />
             <Text style={styles.title}>
-              Sign in to <Text style={{ color: '#075eec' }}>LaburAR</Text>
+              Sign in to <Text style={styles.highlight}>LaburAR</Text>
             </Text>
-
-            <Text style={styles.subtitle}>
-             Welcome Back
-            </Text>
+            <Text style={styles.subtitle}>Welcome Back</Text>
           </View>
 
           <View style={styles.form}>
-            <View style={styles.input}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Email address</Text>
-
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -48,12 +37,12 @@ export default function Example() {
                 placeholder="john@example.com"
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
-                value={form.email} />
+                value={form.email}
+              />
             </View>
 
-            <View style={styles.input}>
+            <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Password</Text>
-
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
@@ -61,15 +50,17 @@ export default function Example() {
                 placeholder="**"
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
-                secureTextEntry={true}
-                value={form.password} />
+                secureTextEntry
+                value={form.password}
+              />
             </View>
 
             <View style={styles.formAction}>
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
-                }}>
+                }}
+              >
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Sign in</Text>
                 </View>
@@ -79,22 +70,28 @@ export default function Example() {
             <Text style={styles.formLink}>Forgot password?</Text>
           </View>
 
-        <TouchableOpacity
-          onPress={() => {
-            // handle link
-          }}
-          style={{ marginTop: 'auto' }}>
-          <Text style={styles.formFooter}>
-            You are new?{' '}
-            <Text style={{ textDecorationLine: 'underline' }}>Create an account</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          <TouchableOpacity
+            onPress={() => {
+              // handle link
+            }}
+            style={styles.footerLink}
+          >
+            <Text style={styles.formFooter}>
+              You are new?{' '}
+              <Text style={styles.createAccountLink}>Create an account</Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#e8ecf4',
+  },
   container: {
     paddingVertical: 24,
     paddingHorizontal: 0,
@@ -102,18 +99,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     flexBasis: 0,
   },
-  title: {
-    fontSize: 31,
-    fontWeight: '700',
-    color: '#1D2A32',
-    marginBottom: 6,
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#929292',
-  },
-  /** Header */
   header: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -125,7 +110,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 36,
   },
-  /** Form */
+  title: {
+    fontSize: 31,
+    fontWeight: '700',
+    color: '#1D2A32',
+    marginBottom: 6,
+  },
+  highlight: {
+    color: '#075eec',
+  },
+  subtitle: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#929292',
+  },
   form: {
     marginBottom: 24,
     paddingHorizontal: 24,
@@ -133,25 +131,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     flexBasis: 0,
   },
-  formAction: {
-    marginTop: 4,
-    marginBottom: 16,
-  },
-  formLink: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#075eec',
-    textAlign: 'center',
-  },
-  formFooter: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#222',
-    textAlign: 'center',
-    letterSpacing: 0.15,
-  },
-  /** Input */
-  input: {
+  inputContainer: {
     marginBottom: 16,
   },
   inputLabel: {
@@ -172,7 +152,10 @@ const styles = StyleSheet.create({
     borderColor: '#C9D3DB',
     borderStyle: 'solid',
   },
-  /** Button */
+  formAction: {
+    marginTop: 4,
+    marginBottom: 16,
+  },
   btn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -190,7 +173,28 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#fff',
   },
+  formLink: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#075eec',
+    textAlign: 'center',
+  },
+  formFooter: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#222',
+    textAlign: 'center',
+    letterSpacing: 0.15,
+  },
+  footerLink: {
+    marginTop: 'auto',
+  },
+  createAccountLink: {
+    textDecorationLine: 'underline',
+  },
 });
+
+export default App;
 
 
 
