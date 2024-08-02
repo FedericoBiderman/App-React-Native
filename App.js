@@ -1,9 +1,10 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import InitialScreen from './Screens-Login/InitialScreen';
-import LoginScreen from './Screens-Login/LoginScreen';
+import InitialScreen from "./screens/Screens-Login/InitialScreen";
+import LoginScreen from "./screens/Screens-Login/LoginScreen";
+import MatcheoScreen from "./Screens-Match/MatcheoScreen";
 //import LoginMailScreen from './Screens-Login/LoginMailScreen';
 //import LoginPasswordScreen from './Screens-Login/LoginPasswordScreen';
 
@@ -31,6 +32,11 @@ export default function App() {
         <Stack.Screen
           name="LoginPassword"
           component={LoginPasswordScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Matcheo"
+          component={MatcheoScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
