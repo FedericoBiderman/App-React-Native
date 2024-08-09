@@ -1,133 +1,96 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
-export default function MatcheoScreen() {
+const MatcheoScreen = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={{ uri: './assets/Logo.png' }} style={styles.logo} />
-        <View style={styles.icons}>
-          <TouchableOpacity style={styles.icon}>
-            <MaterialIcons name="notifications-none" size={24} color="black" />
+    <ImageBackground source={{ uri: './assets/pursuer4.png' }} style={styles.backgroundImage}>
+      <View style={styles.overlay}>
+        <Text style={styles.matchText}>It's a Match!</Text>
+        <Text style={styles.subText}>Es un match!</Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Dile algo"
+            placeholderTextColor="#888"
+          />
+          <TouchableOpacity style={styles.sendButton}>
+            <Text style={styles.sendButtonText}>ENVIAR</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.icon}>
-            <MaterialIcons name="settings" size={24} color="black" />
+        </View>
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity style={styles.iconButton}>
+            <FontAwesome name="smile-o" size={24} color="yellow" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <FontAwesome name="star-o" size={24} color="gold" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <FontAwesome name="thumbs-up" size={24} color="blue" />
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.cardContainer}>
-        <Image source={{ uri: './assets/user1.jpeg' }} style={styles.image} />
-        <View style={styles.info}>
-          <Text style={styles.name}>Alicia, 25</Text>
-          <Text style={styles.details}>Recently Active</Text>
-          <View style={styles.rating}>
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star-half" size={18} color="gold" />
-            <Text style={styles.ratingText}>4.5</Text>
-          </View>
-          <Text style={styles.matched}>Matched +5 Preferences</Text>
-          <Text style={styles.preference}>UBA</Text>
-          <Text style={styles.preference}>Ingles</Text>
-          <Text style={styles.preference}>Programmer</Text>
-          <Text style={styles.preference}>Full-Stack</Text>
-          <Text style={styles.preference}>Argentina</Text>
-        </View>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="check" size={24} color="green" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="times" size={24} color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="arrow-left" size={24} color="purple" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="arrow-right" size={24} color="blue" />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
   },
-  logo: {
-    width: 50,
-    height: 50,
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    width: '100%',
   },
-  icons: {
+  matchText: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: 'mintcream',
+    marginBottom: 10,
+  },
+  subText: {
+    fontSize: 18,
+    color: 'mintcream',
+    marginBottom: 20,
+  },
+  inputContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '80%',
   },
-  icon: {
+  input: {
+    flex: 1,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+  },
+  sendButton: {
+    backgroundColor: 'black',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
     marginLeft: 10,
   },
-  cardContainer: {
-    flex: 1,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: 300,
-  },
-  info: {
-    padding: 10,
-  },
-  name: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  details: {
-    color: 'green',
-    fontSize: 16,
-    marginVertical: 5,
-  },
-  rating: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  ratingText: {
-    marginLeft: 5,
+  sendButtonText: {
+    color: 'white',
     fontSize: 16,
   },
-  matched: {
-    marginVertical: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  preference: {
-    fontSize: 14,
-    color: '#555',
-  },
-  buttonsContainer: {
+  iconsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 20,
+    width: '60%',
   },
-  button: {
+  iconButton: {
     padding: 10,
-    borderWidth: 1,
-    borderRadius: 50,
-    borderColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
+
+export default MatcheoScreen;
