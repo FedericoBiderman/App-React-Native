@@ -12,7 +12,7 @@ export default function InitialScreen({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.loginButton}
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.navigate('LoginScreen')}
       >
         <Text style={styles.loginButtonText}>Log in</Text>
       </TouchableOpacity>

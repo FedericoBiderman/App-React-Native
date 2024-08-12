@@ -1,0 +1,62 @@
+export const users = [
+    {
+        id: 1,
+        name: "Alicia Conti",
+        EducationalInstitutions: "Stanford",
+        Job: "Programmer",
+        Sub_Job: "Full-Stack",
+        EducationalStatus: "Titulo de grado",
+        Languagues: "Ingles",
+        Country: "Italia",
+        age: 25,
+        ratingText: 4.5,
+        matched: "Matched +5 preferences",
+        details: "Recently Active",
+        image: require("./assets/pursuer1.png")
+    },
+    {
+        id: 2,
+        name: "Paul Muller",
+        EducationalInstitutions: "MIT",
+        Job: "Web Developer",
+        Sub_Job: "FrontEnd",
+        EducationalStatus: "Sigo estudiando",
+        Languagues: "Aleman y Español",
+        Country: "Alemania",
+        age: 26,
+        matched: "Matched 3 preferences",
+        ratingText: 4.5,
+        details: "Recently Active",
+        image: require("./assets/pursuer2.png")
+    },
+    {
+        id: 3,
+        name: "Jose Hernández",
+        EducationalInstitutions: "UNAM",
+        Job: "Application Developer",
+        Sub_Job: "BackEnd",
+        EducationalStatus: "Titulo de grado",
+        Languagues: "Español",
+        Country: "Mexico",
+        age: 22,
+        matched: "Matched +3 preferences",
+        ratingText: 4.5,
+        details: "Recently Active",
+        image: require("./assets/pursuer3.png")
+    },
+    {
+        id: 4,
+        name: "Summer Smith",
+        EducationalInstitutions: "Oxford",
+        Job: "Desktop Programmer",
+        Sub_Job: "Full-Stack",
+        EducationalStatus: "Titulo de grado",
+        Languagues: "Ingles y Español",
+        Country: "Gran Bretaña",
+        age: 23,
+        matched: "Matched 5 preferences",
+        ratingText: 4.5,
+        details: "Recently Active",
+        image: require("./assets/pursuer4.png")
+    }
+]

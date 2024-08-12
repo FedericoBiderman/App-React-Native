@@ -1,141 +1,112 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { View, Dimensions, Animated, PanResponder } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { users as usersArray } from './utils/data.js';
+import Card from './components/Card.js';
+import Footer from './components/Footer.js';
 
-export default function MatcheoScreen() {
+const { width, height } = Dimensions.get('screen');
+
+export default function matchScreen() {
+  const [users, setUsers] = useState(usersArray);
+
+  const swipe = useRef(new Animated.ValueXY()).current;
+  const titlSign = useRef(new Animated.Value(1)).current;
+
+  const panResponder = PanResponder.create({
+    onMoveShouldSetPanResponder: () => true,
+    onPanResponderMove: (_, { dx, dy, y0 }) => {
+      swipe.setValue({ x: dx, y: dy });
+      titlSign.setValue(y0 > (height * 0.9) / 2 ? 1 : -1);
+    },
+    onPanResponderRelease: (_, { dx, dy }) => {
+      const direction = Math.sign(dx);
+      const isActionActive = Math.abs(dx) > 100;
+
+      if (isActionActive) {
+        Animated.timing(swipe, {
+          duration: 1000,
+          toValue: {
+            x: direction * 500,
+            y: dy,
+          },
+          useNativeDriver: true,
+        }).start(removeTopCard);
+      } else {
+        Animated.spring(swipe, {
+          toValue: {
+            x: 0,
+            y: 0,
+          },
+          useNativeDriver: true,
+          friction: 5,
+        }).start();
+      }
+    },
+  })
+
+
+  const removeTopCard = useCallback(() => {
+    setUsers((prevState)=>prevState.slice(1));
+    swipe.setValue({x:0, y:0});
+  }, [swipe])
+
+  const handleChoice = useCallback((direction) => {
+    Animated.timing(swipe.x, {
+      toValue: direction * 500, 
+      duration: 2000,
+      useNativeDriver: true
+    }).start(removeTopCard)
+  }, [removeTopCard, swipe.x]);
+  useEffect(() => {
+    if (!users.length) {
+      setUsers(usersArray); // Re-initialize with original data if the array is empty
+    }
+  }, [users]);
+
   return (
-    <View style={styles.container}>
-      
-      {/* Encabezado con logo e íconos */}
-      <View style={styles.header}>
-        <Image source={{ uri: './assets/Logo.png' }} style={styles.logo} />
-        <View style={styles.icons}>
-          <TouchableOpacity style={styles.icon}>
-            <Ionicons name="notifications" size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.icon}>
-            <Ionicons name="settings" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Tarjeta de perfil */}
-      <View style={styles.cardContainer}>
-        <Image source={{ uri: './assets/pursuer1.png' }} style={styles.image} />
-        <View style={styles.info}>
-          <Text style={styles.name}>Alicia, 25</Text>
-          <Text style={styles.details}>Recently Active</Text>
-          <View style={styles.rating}>
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star" size={18} color="gold" />
-            <FontAwesome name="star-half" size={18} color="gold" />
-            <Text style={styles.ratingText}>4.5</Text>
-          </View>
-          <Text style={styles.matched}>Matched +5 Preferences</Text>
-          <Text style={styles.preference}>UBA</Text>
-          <Text style={styles.preference}>Ingles</Text>
-          <Text style={styles.preference}>Programmer</Text>
-          <Text style={styles.preference}>Full-Stack</Text>
-          <Text style={styles.preference}>Titulo de Grado</Text>
-          <Text style={styles.preference}>Argentina</Text>
-        </View>
-      </View>
-
-      {/* Botones de acción */}
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="times" size={24} color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="check" size={24} color="green" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="star" size={24} color="purple" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="arrow-right" size={24} color="blue" />
-        </TouchableOpacity>
-      </View>
+    <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'white' }}>
+      <StatusBar hidden={true} />
+      {users
+        .map(
+          (
+            {
+              name,
+              EducationalInstitutions,
+              Job,
+              Sub_Job,
+              EducationalStatus,
+              Languagues,
+              Country,
+              age,
+              image,
+            },
+            index
+          ) => {
+            const isFirst = index === 0;
+            const dragHandlers = isFirst ? panResponder.panHandlers : {};
+            return (
+              <Card
+                key={index} // Use index or a unique identifier instead of name
+                name={name}
+                EducationalInstitutions={EducationalInstitutions}
+                Job={Job}
+                Sub_Job={Sub_Job}
+                image={image}
+                EducationalStatus={EducationalStatus}
+                Languagues={Languagues}
+                Country={Country}
+                age={age}
+                isFirst={isFirst}
+                swipe={swipe}
+                titlSign={titlSign}
+                {...dragHandlers}
+              />
+            );
+          }
+        )
+        .reverse()}
+      <Footer handleChoice={handleChoice}/>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
-  logo: {
-    width: 50,
-    height: 50,
-  },
-  icons: {
-    flexDirection: 'row',
-  },
-  icon: {
-    marginLeft: 10,
-  },
-  cardContainer: {
-    flex: 1,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: 300,
-  },
-  info: {
-    padding: 10,
-  },
-  name: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  details: {
-    color: 'green',
-    fontSize: 16,
-    marginVertical: 5,
-  },
-  rating: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  ratingText: {
-    marginLeft: 5,
-    fontSize: 16,
-  },
-  matched: {
-    marginVertical: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  preference: {
-    fontSize: 14,
-    color: '#555',
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 20,
-  },
-  button: {
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 50,
-    borderColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
