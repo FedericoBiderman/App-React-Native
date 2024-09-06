@@ -1,5 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import Page from "./app/Page"; 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,6 +16,18 @@ import OlvideContraseñaScreen2 from "./screens/Screens-Olvidecontrasena/OlvideC
 import OlvideContraseñaScreen3 from "./screens/Screens-Olvidecontrasena/OlvideContrasenaScreen3";
 import OlvideContraseñaScreen4 from "./screens/Screens-Olvidecontrasena/OlvideContrasenaScreen4";
 import MatcheoScreen from "./screens/Screens-Match/MatcheoScreen";
+import PursuerScreen from "./screens/Screens-Match/PursuerScreen";
+import NewPasswordScreen from "./screens/Screens-NewPassword/NewPasswordScreen";
+import NewPasswordScreen2 from "./screens/Screens-NewPassword/NewPasswordScreen2";
+import RepeatPasswordScreen from "./screens/Screens-NewPassword/RepeatPasswordScreen";
+import RepeatPasswordScreen2 from "./screens/Screens-NewPassword/RepeatPasswordScreen2";
+import NewPasswordFinishScreen from "./screens/Screens-NewPassword/NewPasswordFinishScreen";
+import VolverInicioSesionScreen from "./screens/Screens-NewPassword/VolverInicioSesionScreen";
+import OlvideContraseñaScreen2 from "./screens/Screens-Olvidecontrasena/OlvideContrasenaScreen2";
+import OlvideContraseñaScreen3 from "./screens/Screens-Olvidecontrasena/OlvideContrasenaScreen3";
+import OlvideContraseñaScreen4 from "./screens/Screens-Olvidecontrasena/OlvideContrasenaScreen4";
+import MatcheoScreen from "./screens/Screens-Match/MatcheoScreen";
+import PursuerScreen from "./screens/Screens-Match/PursuerScreen";
 
 const StackLogin = createStackNavigator();
 const StackMatch = createStackNavigator();
@@ -24,10 +37,11 @@ const StackHome = createStackNavigator();
 const StackPerfil = createStackNavigator();
 const StackSignup = createStackNavigator();
 const StackOlvideContraseña = createStackNavigator();
+const StackNuevaContraseña = createStackNavigator();
 const StackCuentaProfesionalPicker = createStackNavigator();
 const StackCuentaProfesionalPursuer = createStackNavigator();
 
-function StackLoginNavigator() {
+function StackLogin() {
   return (
     <StackLogin.Navigator>
       <StackLogin.Screen
@@ -64,12 +78,49 @@ function StackLoginNavigator() {
   );
 }
 
+function StackNuevaContraseña() {
+  return (
+    <StackNuevaContraseña.Navigator>
+      <StackNuevaContraseña.Screen
+        name="NewPasswordScreen"
+        component={NewPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <StackLogin.Screen
+        name="NewPasswordScreen2"
+        component={NewPasswordScreen2}
+        options={{ headerShown: false }}
+      />
+      <StackLogin.Screen
+        name="RepeatPasswordScreen"
+        component={RepeatPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <StackLogin.Screen
+        name="RepeatPasswordScreen2"
+        component={RepeatPasswordScreen2}
+        options={{ headerShown: false }}
+      />
+      <StackLogin.Screen
+        name="NewPasswordFinishScreen"
+        component={NewPasswordFinishScreen}
+        options={{ headerShown: false }}
+      />
+      <StackLogin.Screen
+        name="VolverInicioSesionScreen"
+        component={VolverInicioSesionScreen}
+        options={{ headerShown: false }}
+      />
+    </StackNuevaContraseña.Navigator>
+  );
+}
+
 function StackMatch() {
   return (
     <StackMatch.Navigator>
       <StackMatch.Screen
         name="PursuerScreen"
-        component={MatcheoScreen}
+        component={PursuerScreen}
         options={{ headerShown: false }}
       />
       <StackMatch.Screen
@@ -209,6 +260,7 @@ function MyTabs() {
 export default function App() {
   return (
     <NavigationContainer>
+      <Page />
       <MyTabs />
     </NavigationContainer>
   );
